@@ -23,13 +23,26 @@ controls.target.set(1, 1.5, 0);
 controls.enableDamping = true;
 controls.maxPolarAngle = Math.PI * 0.48;
 controls.minDistance = 6;
-controls.maxDistance = 70;
+controls.maxDistance = 90;
 
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
+// Narrow (portrait) screens get a wider lens and a farther camera so the whole factory fits
+const BASE_DIST = camera.position.distanceTo(controls.target);
+const FIT_HALF_WIDTH = 14;
+function fitCamera() {
+  const aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = aspect;
+  camera.fov = aspect < 1 ? 60 : 50;
+  const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
+  const dist = Math.min(Math.max(BASE_DIST, FIT_HALF_WIDTH / (Math.tan(halfFov) * aspect)), 80);
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  camera.position.copy(controls.target).addScaledVector(dir, dist);
+  scene.fog.near = dist + 15;
+  scene.fog.far = dist + 80;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-});
+}
+fitCamera();
+window.addEventListener('resize', fitCamera);
 
 // ---------------------------------------------------------------------------
 // Lights
