@@ -2,15 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Little 3D Factory</title>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
     <div id="hud">
       <h1>Little Factory</h1>
-      <p>Crates shipped: <span id="count">0</span></p>
-      <p class="hint">Drag to orbit · scroll to zoom · <kbd>Space</kbd> pause · <kbd>R</kbd> toggle roof</p>
+      <p>Parcels delivered: <span id="count" class="num">0</span> &middot; Golden: <span id="gold" class="num">0</span></p>
+      <div class="row">
+        <button id="pauseBtn" type="button">Pause</button>
+        <button id="roofBtn" type="button">Hide roof</button>
+        <button id="followBtn" type="button" aria-pressed="false">Follow truck</button>
+      </div>
+      <p class="hint">Drag to orbit, scroll or pinch to zoom. Some things react when you tap them.</p>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>
